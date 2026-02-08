@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -15,26 +14,25 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    ProductService service;
+    private ProductService service;
 
     @GetMapping("/create")
-    public String createProductPage(Model model){
+    public String createProductPage(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
-        return "createProduct";
+        return "CreateProduct";
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product, Model model){
+    public String createProductPost(@ModelAttribute Product product, Model model) {
         service.create(product);
         return "redirect:list";
     }
 
     @GetMapping("/list")
-    public String ProductListPage(Model model){
-        List<Product> allProduct = service.findAll();
-        model.addAttribute("products", allProduct);
-        return "productList";
+    public String productListPage(Model model) {
+        List<Product> allProducts = service.findAll();
+        model.addAttribute("products", allProducts);
+        return "ProductList";
     }
-
 }

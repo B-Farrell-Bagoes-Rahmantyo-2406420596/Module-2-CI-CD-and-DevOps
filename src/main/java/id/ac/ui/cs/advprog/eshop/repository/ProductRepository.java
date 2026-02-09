@@ -15,6 +15,14 @@ public class ProductRepository {
         return product;
     }
 
+    public Product deleteById(String id){
+        Product product = findById(id);
+        if (product != null){
+            productData.remove(product);
+        }
+        return product;
+    }
+
     public Product findById(String searchId){
         for(Product product : productData){
             String productId = product.getProductID();

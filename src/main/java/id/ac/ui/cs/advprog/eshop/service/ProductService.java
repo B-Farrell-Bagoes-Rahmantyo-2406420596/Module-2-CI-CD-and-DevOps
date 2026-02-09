@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface ProductService {
     public Product create(Product product);
-    public Product delete(Product product);
+    public Product deleteById(String id);
     public List<Product> findAll();
 }

@@ -39,6 +39,9 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public String editProductPage(@PathVariable String id, Model model) {
         Product product = service.findById(id);
+        if (product == null) {
+            return "redirect:/product/list";
+        }
         model.addAttribute("product", product);
         return "editProduct";
     }
@@ -52,6 +55,9 @@ public class ProductController {
     @GetMapping("/delete/{id}")
     public String deleteProductPost(@PathVariable String id, Model model){
         Product product = service.findById(id);
+        if (product == null) {
+            return "redirect:/product/list";
+        }
         service.delete(product);
         return "redirect:/product/list";
     }

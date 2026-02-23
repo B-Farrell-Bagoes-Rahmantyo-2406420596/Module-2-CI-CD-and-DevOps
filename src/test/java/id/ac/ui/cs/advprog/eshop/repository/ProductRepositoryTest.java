@@ -35,6 +35,18 @@ public class ProductRepositoryTest {
     }
 
     @Test
+    void testFindProductNotFound() {
+        Product product = new Product();
+        product.setProductID("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product result = productRepository.findById("non-existent-id");
+        assertNull(result);
+    }
+
+    @Test
     void testFindAllIfEmpty() {
         Iterator<Product> productIterator = productRepository.findAll();
         assertFalse(productIterator.hasNext());

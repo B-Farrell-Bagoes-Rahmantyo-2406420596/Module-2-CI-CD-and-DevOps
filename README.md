@@ -1,3 +1,6 @@
+## Deployment Link
+https://e-shop-rekkin-d55034d8dfdd.herokuapp.com/
+
 # Refleksi 1 - Module 1
 ---
 Pada exercise 1 ini, saya belajar cukup banyak mengenai clean coding dan struktur Spring Web.  

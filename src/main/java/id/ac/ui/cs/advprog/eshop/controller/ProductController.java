@@ -55,7 +55,7 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteProductPost(@PathVariable String id){
+    public String deleteProductGet(@PathVariable String id){
         Product product = service.findById(id);
         if (product == null) {
             return "redirect:/product/list";
@@ -97,19 +97,26 @@ class CarController extends ProductController {
     @GetMapping("/editCar/{carId}")
     public String editCarPage (@PathVariable String carId, Model model) {
         Car car = carservice.findById(carId);
+        if (car == null) {
+            return "redirect:/car/list";
+        }
         model.addAttribute("car", car); return "editCar";
     }
 
     @PostMapping("/editCar")
     public String editCarPost (@ModelAttribute Car car, Model model) {
         System.out.println(car.getCarId());
-        carservice.update(car.getCarId(), car);
+        carservice.update(car);
         return "redirect:listCar";
     }
 
-    @PostMapping("/deleteCar")
-    public String deleteCar (@RequestParam("carId") String carId) {
-        carservice.deleteCarById(carId);
+    @GetMapping("/deleteCar/{carId}")
+    public String deleteCarGet (@PathVariable String carId) {
+        Car car = carservice.findById(carId);
+        if (car == null) {
+            return "redirect:/car/list";
+        }
+        carservice.delete(car);
         return "redirect:listCar";
     }
 }

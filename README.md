@@ -36,4 +36,9 @@ Selain itu CI yang sudah saya implement meliputi :
 
 Linter test menghandle unit test dan functional test, Sonar menghandle code quality, 
 OSSF Scorecard menilai security walau saya ambil templatenya jadi banyak security belum aman, tetapi tetap lolos. 
-Mungkin Config OSSF perlu diperketat dan juga saya rasa CI yang membantu proses PR juga dapat membantu.
+Mungkin Config OSSF perlu diperketat dan juga saya rasa CI yang membantu proses PR juga dapat membantu.  
+
+# Refleksi - Module 3
+---
+- Penerapan DIP, saya menerapkan DIP dengan membuat sebuah interface untuk CarRepository, lalu pada CarService Kelas Car Repository saya referensikan ke Interface tersebut. 
+- 

@@ -41,4 +41,5 @@ Mungkin Config OSSF perlu diperketat dan juga saya rasa CI yang membantu proses 
 # Refleksi - Module 3
 ---
 - Penerapan DIP, saya menerapkan DIP dengan membuat sebuah interface untuk CarRepository, lalu pada CarService Kelas Car Repository saya referensikan ke Interface tersebut. 
+- Penarapan SRP, saya menerapkan SRP dengan memisahkan Car Controller menjadi class tersendiri, dikarenakan prinsip ini bertujuan untuk membuat suatu kelas memilki satu tujuan. Jadi controller saya buat untuk mengatur dirinya sendiri. 
 - 

@@ -1,40 +1,138 @@
-name: Sonar Test Workflows (CI)
+name: Deploy to Heroku
 
 on:
   push:
-  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  check-ci:
+    name: Check CI Workflow Status
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Check CI workflow status
+        uses: actions/github-script@v7
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const sha = context.sha;
+            
+            // Check CI workflow
+            const ciRuns = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: owner,
+              repo: repo,
+              workflow_id: 'ci.yml',
+              head_sha: sha,
+              status: 'completed'
+            });
+            
+            if (ciRuns.data.workflow_runs.length === 0) {
+              core.setFailed('CI workflow has not completed yet');
+              return;
+            }
+            
+            const ciStatus = ciRuns.data.workflow_runs[0].conclusion;
+            if (ciStatus !== 'success') {
+              core.setFailed(`CI workflow failed with status: ${ciStatus}`);
+              return;
+            }
+            
+            console.log('✅ CI workflow passed');
+
+  check-sonar:
+    name: Check Sonar Workflow Status
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check Sonar workflow status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const sha = context.sha;
+            
+            // Check Sonar workflow
+            const sonarRuns = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: owner,
+              repo: repo,
+              workflow_id: 'sonar.yml',
+              head_sha: sha,
+              status: 'completed'
+            });
+            
+            if (sonarRuns.data.workflow_runs.length === 0) {
+              core.setFailed('Sonar workflow has not completed yet');
+              return;
+            }
+            
+            const sonarStatus = sonarRuns.data.workflow_runs[0].conclusion;
+            if (sonarStatus !== 'success') {
+              core.setFailed(`Sonar workflow failed with status: ${sonarStatus}`);
+              return;
+            }
+            
+            console.log('✅ Sonar workflow passed');
+
+  check-scorecard:
+    name: Check Scorecard Workflow Status
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check Scorecard workflow status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const sha = context.sha;
+            
+            // Check Scorecard workflow
+            const scorecardRuns = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: owner,
+              repo: repo,
+              workflow_id: 'scorecard.yml',
+              head_sha: sha,
+              status: 'completed'
+            });
+            
+            if (scorecardRuns.data.workflow_runs.length === 0) {
+              core.setFailed('Scorecard workflow has not completed yet');
+              return;
+            }
+            
+            const scorecardStatus = scorecardRuns.data.workflow_runs[0].conclusion;
+            if (scorecardStatus !== 'success') {
+              core.setFailed(`Scorecard workflow failed with status: ${scorecardStatus}`);
+              return;
+            }
+            
+            console.log('✅ Scorecard workflow passed');
+
+  deploy:
+    name: Deploy to Heroku
+    runs-on: ubuntu-22.04
+    needs: [check-ci, check-sonar, check-scorecard]
+    steps:
+      - name: Check out the Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java toolchain
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "gradle"
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
 
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.13.15
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          args: >
-            -Dsonar.projectKey=B-Farrell-Bagoes-Rahmantyo-2406420596_Module-2-CI-CD-and-DevOps
-            -Dsonar.organization=b-farrell-bagoes-rahmantyo-2406420596
-            -Dsonar.java.binaries=build/classes
-            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_KEY }}
+          heroku_api_key: ${{ secrets.HEROKU_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          usedocker: false

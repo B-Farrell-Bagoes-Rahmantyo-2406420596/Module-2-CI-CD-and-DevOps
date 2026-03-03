@@ -1,8 +1,8 @@
 name: Deploy to Heroku
 
 on:
-  push:
-    workflows: [ "Continuous Integration (CI)", "Sonar Test Workflows (CI)", "Scorecard supply-chain security" ]
+  workflow_run:
+    workflows: ["Continuous Integration (CI)", "Sonar Test Workflows (CI)", "Scorecard supply-chain security"]
     types:
       - completed
     branches:

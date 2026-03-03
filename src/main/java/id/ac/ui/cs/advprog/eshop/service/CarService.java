@@ -1,11 +1,7 @@
-
 package id.ac.ui.cs.advprog.eshop.service;
+import id.ac.ui.cs.advprog.eshop.common.CrudService;
 import id.ac.ui.cs.advprog.eshop.model.Car;
-import java.util.List;
-public interface CarService {
-    public Car create (Car car);
-    public List<Car> findAll();
-    Car findById(String carId);
-    public Car update(Car car);
-    public Car delete(Car car);
+
+public interface CarService extends CrudService<Car> {
+
 }

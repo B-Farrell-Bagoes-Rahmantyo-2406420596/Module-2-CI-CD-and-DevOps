@@ -16,20 +16,20 @@ class CarController extends ProductController {
     @Autowired
     private CarServiceImpl carservice;
 
-    @GetMapping("/createCar")
+    @GetMapping("/create")
     public String createCarPage(Model model) {
         Car car = new Car();
         model.addAttribute("car", car);
         return "createCar";
     }
 
-    @PostMapping("/createCar")
-    public String createCarPost(@ModelAttribute Car car, Model model) {
+    @PostMapping("/create")
+    public String createCarPost(@ModelAttribute Car car) {
         carservice.create(car);
         return "redirect:listCar";
     }
 
-    @GetMapping("/listCar")
+    @GetMapping("/list")
     public String carListPage(Model model) {
         List<Car> allCars = carservice.findAll();
         model.addAttribute("cars", allCars);
@@ -37,7 +37,7 @@ class CarController extends ProductController {
     }
 
 
-    @GetMapping("/editCar/{carId}")
+    @GetMapping("/edit/{carId}")
     public String editCarPage (@PathVariable String carId, Model model) {
         Car car = carservice.findById(carId);
         if (car == null) {
@@ -46,14 +46,14 @@ class CarController extends ProductController {
         model.addAttribute("car", car); return "editCar";
     }
 
-    @PostMapping("/editCar")
-    public String editCarPost (@ModelAttribute Car car, Model model) {
+    @PostMapping("/edit")
+    public String editCarPost (@ModelAttribute Car car) {
         System.out.println(car.getCarId());
         carservice.update(car);
         return "redirect:listCar";
     }
 
-    @GetMapping("/deleteCar/{carId}")
+    @GetMapping("/delete/{carId}")
     public String deleteCarGet (@PathVariable String carId) {
         Car car = carservice.findById(carId);
         if (car == null) {

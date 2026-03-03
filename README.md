@@ -44,4 +44,4 @@ Mungkin Config OSSF perlu diperketat dan juga saya rasa CI yang membantu proses 
 - Penerapan SRP, saya menerapkan SRP dengan memisahkan Car Controller menjadi class tersendiri, dikarenakan prinsip ini bertujuan untuk membuat suatu kelas memilki satu tujuan. Jadi controller saya buat untuk mengatur dirinya sendiri. 
 - Penerapan ISP, saya menerapkan ISP dengan memecah semua fungsi di interface menjadi interface tersendiri (ex: Findable, Createable) yang nanti bisa dipasang-pasang.
 - Penerapan OCP, saya menerapkan OCP dengan terdapat interface untuk general Service dan Repo yang mana penerapan findAll() nya mereturn data type yang berbeda. 
-- 
+- Penerapan LSP, saya menerapkan LSP dengan membenarkan kesalahan penerapan prinsip ini sebelumnya Car Controller mengextends product controller padahal seharusnya tidak karena CarController tidak dapat menggantikan ProductController.

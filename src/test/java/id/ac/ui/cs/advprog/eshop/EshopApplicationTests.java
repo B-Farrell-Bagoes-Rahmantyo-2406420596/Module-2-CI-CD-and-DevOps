@@ -12,9 +12,7 @@ class EshopApplicationTests {
     }
 
     @Test
-    void mainMethodStartsApplicationSuccessfully() {
-        assertDoesNotThrow(() -> {
-            EshopApplication.main(new String[] {});
-        });
+    void testMain(){
+        EshopApplication.main(new String[] {});
     }
 }

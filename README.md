@@ -40,8 +40,34 @@ Mungkin Config OSSF perlu diperketat dan juga saya rasa CI yang membantu proses 
 
 # Refleksi - Module 3
 ---
+## Penerapan
 - Penerapan DIP, saya menerapkan DIP dengan membuat sebuah interface untuk CarRepository, lalu pada CarService Kelas Car Repository saya referensikan ke Interface tersebut. 
-- Penerapan SRP, saya menerapkan SRP dengan memisahkan Car Controller menjadi class tersendiri, dikarenakan prinsip ini bertujuan untuk membuat suatu kelas memilki satu tujuan. Jadi controller saya buat untuk mengatur dirinya sendiri. 
+- Penerapan SRP, saya menerapkan SRP dengan memisahkan Car Controller menjadi class tersendiri, dikarenakan prinsip ini bertujuan untuk membuat suatu kelas memilki satu tujuan. Jadi controller saya buat untuk mengatur dirinya sendiri dan menginisiasi id car langsung diclassnya.
 - Penerapan ISP, saya menerapkan ISP dengan memecah semua fungsi di interface menjadi interface tersendiri (ex: Findable, Createable) yang nanti bisa dipasang-pasang.
 - Penerapan OCP, saya menerapkan OCP dengan terdapat interface untuk general Service dan Repo yang mana penerapan findAll() nya mereturn data type yang berbeda. 
 - Penerapan LSP, saya menerapkan LSP dengan membenarkan kesalahan penerapan prinsip ini sebelumnya Car Controller mengextends product controller padahal seharusnya tidak karena CarController tidak dapat menggantikan ProductController.
+
+## Advantage
+### Single Responbility Principle
+Prinsip ini bertujuan supaya kita membuat suatu fungsi/method/class untuk mengerjakan satu hal saja. 
+Dengan menerapkan prinsip ini, codebase kita lebih mudah untuk dimantain karena lebih mudah untuk mencari 
+dan merefactor hal-hal di suatu saat dibutuhkan. 
+
+### Open Closed Principle
+Prinsip ini bertujuan untuk membatasi memodifikasi objek secara langsung, tetapi kita dapat memodifikasinya dengan extension. 
+Prinsip ini memudahkan kita menambahkan fitur-fitur baru tanpa harus mengubah objek dasarnya dengan membuat subclass baru.
+
+### Liskov Substitution Principle
+Prinsip ini bertujuan menjaga konsistensi antar subclass dan superclassnya sehingga subclass dapat melakukan semua hal yang superclassnya bisa. 
+
+
+### Interface Segregation Principle
+Prinsip ini bertujuan untuk memecah interface-interface menjadi lebih spesifik sehingga suatu objek dapat mengimpementasi interface yang dibutuhkan. 
+Prinsip ini memudahkan penggunaan interface untuk jadi modular dan agar tidak memaksakan fungsi/method yang tidak diperlukan
+
+### Dependency Inversion Principle
+Prinsip ini digunakan agar module-module itu depends ke sebuah abstraction bukan implementasinya
+
+## Disadvantage
+Kekurangan utama dalam tidak menerapkan prinsip SOLID yakni, codebase jadi sulit untuk dimaintain, baik karena kesulitan menemukan 
+titik masalah maupun fungsi dapat saja hancur ketika menambahkan fungsi-fungsi baru. 

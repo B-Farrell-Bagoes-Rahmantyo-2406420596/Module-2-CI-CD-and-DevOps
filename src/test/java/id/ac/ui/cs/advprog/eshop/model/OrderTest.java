@@ -1,4 +1,5 @@
-import id.ac.ui.cs.advprog.eshop.model.Product;
+package id.ac.ui.cs.advprog.eshop.model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,10 +48,9 @@ class OrderTest {
         assertEquals("Safira Sudrajat", order.getAuthor());
         assertEquals("WAITING_PAYMENT", order.getStatus());
     }
-
     @Test
     void testCreateOrderSuccessStatus() {
-        Order order = new Order(id:"13652556-012a-4c07-b546-54eb1396d79b",
+        Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                 this.products, 1708560000L, "Safira Sudrajat", "SUCCESS");
         assertEquals("SUCCESS", order.getStatus());
     }
